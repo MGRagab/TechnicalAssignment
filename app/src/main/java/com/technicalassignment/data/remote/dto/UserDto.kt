@@ -7,9 +7,10 @@ data class UserDto(
     val email: String,
     val first_name: String,
     val id: Int,
-    val last_name: String
-){
-    fun toUser (): User{
-        return User(avatar, email, first_name, id, last_name)
+    val last_name: String,
+    val job: String? = ""
+) {
+    fun toUser(): User {
+        return User(avatar, email, first_name, id, last_name, job)
     }
 }

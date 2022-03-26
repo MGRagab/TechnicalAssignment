@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class UsersListActivity : AppCompatActivity(), UsersListAdapter.UserItemClickListener {
-    private val airlinesViewModel: UsersViewModel by viewModels()
+    private val usersViewModel: UsersViewModel by viewModels()
     private lateinit var binding: ActivityUsersListBinding
     private val mAdapter by lazy {
         UsersListAdapter(this)
@@ -33,14 +33,10 @@ class UsersListActivity : AppCompatActivity(), UsersListAdapter.UserItemClickLis
         binding.usersRv.apply {
             adapter = mAdapter
         }
-        airlinesViewModel.dataLive.observe(this) {
+        usersViewModel.dataLive.observe(this) {
             when (it.status) {
                 Status.LOADING -> {
                     showLoading()
-                }
-                Status.REFRESHING -> {
-                    showLoading()
-                    mAdapter.submitItems(arrayListOf())
                 }
                 Status.EMPTY -> hideLoading()
                 Status.SUCCEED -> {
@@ -59,7 +55,7 @@ class UsersListActivity : AppCompatActivity(), UsersListAdapter.UserItemClickLis
             }
         }
 
-        airlinesViewModel.getUsersList()
+        usersViewModel.getUsersList()
 
     }
 

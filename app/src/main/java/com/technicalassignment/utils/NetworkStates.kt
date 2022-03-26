@@ -10,7 +10,6 @@ data class Response<T>(
 
         fun <T> loading() = Response<T>(Status.LOADING, null, null)
 
-        fun <T> refreshing() = Response<T>(Status.REFRESHING, null, null)
 
         fun <T> empty() = Response<T>(Status.EMPTY, null, null)
 
@@ -24,7 +23,6 @@ data class Response<T>(
 
 enum class Status {
     LOADING,
-    REFRESHING,
     EMPTY,
     SUCCEED,
     FAILED,
