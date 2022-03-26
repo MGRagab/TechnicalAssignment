@@ -19,4 +19,8 @@ class UsersRepositoryImpl(
     override fun updateUser(id: Int, job: String): Single<UpdateUserDto> {
         return usersApiService.updateUser(id, UpdateUserRequest(job))
     }
+
+    override fun do404Test(): Single<UsersListResponse> {
+        return usersApiService.test404Http()
+    }
 }

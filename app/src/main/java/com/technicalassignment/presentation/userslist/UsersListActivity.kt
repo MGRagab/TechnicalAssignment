@@ -2,9 +2,13 @@ package com.technicalassignment.presentation.userslist
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
+import com.technicalassignment.R
 import com.technicalassignment.databinding.ActivityUsersListBinding
 import com.technicalassignment.domain.model.User
 import com.technicalassignment.presentation.userdetails.UserDetailsActivity
@@ -47,6 +51,11 @@ class UsersListActivity : AppCompatActivity(), UsersListAdapter.UserItemClickLis
 
     }
 
+    private fun apply404Test() {
+        showLoading()
+        usersViewModel.test404()
+    }
+
     private fun showLoading() {
         binding.loadingPb.visibility = View.VISIBLE
     }
@@ -59,5 +68,20 @@ class UsersListActivity : AppCompatActivity(), UsersListAdapter.UserItemClickLis
         val intent = Intent(this, UserDetailsActivity::class.java)
         intent.putExtra("USER", user)
         startActivity(intent)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.home_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(@NonNull item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.test_404 -> {
+                apply404Test()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

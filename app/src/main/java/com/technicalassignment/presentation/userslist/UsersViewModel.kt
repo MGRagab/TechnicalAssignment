@@ -33,6 +33,24 @@ class UsersViewModel @Inject constructor(
     val updateDataLive: LiveData<UpdateUser>
         get() = _updateDataLive
 
+
+    fun test404() {
+        compositeDisposable.add(usersRepository.do404Test()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { response ->
+                    response?.let {
+                        _dataLive.value = response.data.map { it.toUser() }
+                    } ?: run {
+                        _dataLive.value = emptyList()
+                    }
+                },
+                { error -> _errorLive.value = error.mapException() }
+            )
+        )
+    }
+
     fun getUsersList() {
         compositeDisposable.add(usersRepository.getUsersList(1)
             .subscribeOn(Schedulers.io())

@@ -8,4 +8,5 @@ import io.reactivex.Single
 interface UsersRepository {
     fun getUsersList(page: Int): Single<UsersListResponse>
     fun updateUser(id: Int,job: String): Single<UpdateUserDto>
+    fun do404Test() : Single<UsersListResponse>
 }

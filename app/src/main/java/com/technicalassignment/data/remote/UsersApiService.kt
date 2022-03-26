@@ -22,4 +22,7 @@ interface UsersApiService {
         @Body updateUserRequest: UpdateUserRequest
     ): Single<UpdateUserDto>
 
+    @GET(HTTP_404_END_POINT)
+    fun test404Http():Single<UsersListResponse>
+
 }
