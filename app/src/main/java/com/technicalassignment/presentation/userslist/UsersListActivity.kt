@@ -9,7 +9,7 @@ import com.technicalassignment.databinding.ActivityUsersListBinding
 import com.technicalassignment.domain.model.User
 import com.technicalassignment.presentation.userdetails.UserDetailsActivity
 import com.technicalassignment.presentation.userslist.adapter.UsersListAdapter
-import com.technicalassignment.utils.Status
+import com.technicalassignment.utils.showNetworkError
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,28 +34,16 @@ class UsersListActivity : AppCompatActivity(), UsersListAdapter.UserItemClickLis
             adapter = mAdapter
         }
         usersViewModel.dataLive.observe(this) {
-            when (it.status) {
-                Status.LOADING -> {
-                    showLoading()
-                }
-                Status.EMPTY -> hideLoading()
-                Status.SUCCEED -> {
-                    hideLoading()
-                    it.data?.let { users ->
-                        mAdapter.submitItems(users)
-                    }
-                }
-                Status.FAILED -> {
-                    hideLoading()
-                    it.error?.printStackTrace()
-                }
-                Status.NO_CONNECTION -> {
-                    hideLoading()
-                }
-            }
+            hideLoading()
+            mAdapter.submitItems(it)
         }
-
+        usersViewModel.errorLive.observe(this) {
+            hideLoading()
+            showNetworkError(binding.root, it)
+        }
+        showLoading()
         usersViewModel.getUsersList()
+
 
     }
 

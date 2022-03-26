@@ -4,6 +4,7 @@ import com.technicalassignment.data.remote.dto.UpdateUserDto
 import com.technicalassignment.data.remote.dto.UserDto
 import com.technicalassignment.data.remote.dto.UsersListResponse
 import com.technicalassignment.data.remote.request.UpdateUserRequest
+import com.technicalassignment.utils.HTTP_404_END_POINT
 import com.technicalassignment.utils.USERS_END_POINT
 import io.reactivex.Single
 import retrofit2.http.*

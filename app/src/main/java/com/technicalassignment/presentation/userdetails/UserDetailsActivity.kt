@@ -14,8 +14,8 @@ import com.technicalassignment.databinding.ActivityUserDetailsBinding
 import com.technicalassignment.domain.model.User
 import com.technicalassignment.presentation.userslist.UsersViewModel
 import com.technicalassignment.utils.LoadingDialog
-import com.technicalassignment.utils.Status
 import com.technicalassignment.utils.hideKeyboard
+import com.technicalassignment.utils.showNetworkError
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,23 +45,14 @@ class UserDetailsActivity : AppCompatActivity() {
 
 
         usersViewModel.updateDataLive.observe(this) {
-            when (it.status) {
-                Status.LOADING -> {
-                    showLoading()
-                }
-                Status.EMPTY -> hideLoading()
-                Status.SUCCEED -> {
-                    hideLoading()
-                    make(binding.root, "User Job Updated", Snackbar.LENGTH_SHORT).show()
-                }
-                Status.FAILED -> {
-                    hideLoading()
-                    it.error?.printStackTrace()
-                }
-                Status.NO_CONNECTION -> {
-                    hideLoading()
-                }
+            hideLoading()
+            it?.let {
+                make(binding.root, "User Job Updated", Snackbar.LENGTH_SHORT).show()
             }
+        }
+        usersViewModel.errorLive.observe(this) {
+            hideLoading()
+            showNetworkError(binding.root, it)
         }
 
 
@@ -79,6 +70,7 @@ class UserDetailsActivity : AppCompatActivity() {
 
         binding.updateJobBtn.setOnClickListener {
             hideKeyboard()
+            showLoading()
             usersViewModel.updateUserJob(user.id, binding.userJobEt.text.toString())
         }
 
